@@ -1,0 +1,4 @@
+/node_modules/
+/var/*
+/vendor/
+/web/css/compiled

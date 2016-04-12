@@ -1,0 +1,14 @@
+{
+  "name": "silex-kik-start",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "buildcss": "./node_modules/.bin/node-sass --watch --source-map=true -r -o ./web/css/compiled ./frontend/scss"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "node-sass": "^3.4.2"
+  }
+}
