@@ -44,11 +44,6 @@ class Application extends SilexApplication
             return $app['var_dir'] . '/http';
         });
 
-        // monolog params
-        $app['monolog.logfile'] = $app['var_dir'] . "/logs/{$env}.log";
-        $app['monolog.name'] = $env;
-        $app['monolog.level'] = 300; // = Logger::WARNING
-
         $configFile = sprintf('%sresources/config/%s.php', $this->rootDir, $env);
         if (!file_exists($configFile)) {
             throw new \RuntimeException(sprintf('The file "%s" does not exist.', $configFile));
@@ -70,7 +65,13 @@ class Application extends SilexApplication
             return $translator;
         }));
 
-        $app->register(new MonologServiceProvider());
+        // Register monolog
+        $app->register(new MonologServiceProvider(), [
+            'monolog.logfile' => $app['var_dir'] . "/logs/{$env}.log",
+            'monolog.name' => "Newsletter-{$env}",
+            'monolog.level' => 300 // = Logger::WARNING
+        ]);
+
         $app->register(new TwigServiceProvider(), [
             'twig.options' => [
                 'cache' => $app['var_dir'] . '/cache/twig',
@@ -127,6 +128,11 @@ class Application extends SilexApplication
 
     private function loadServices()
     {
+        $this->register(new Services\GuzzleServiceProvider());
+
+        $this->register(new Services\SendgridServiceProvider(), [
+            'sendgrid.apikey' => getenv('SENDGRID_APIKEY')
+        ]);
 
     }
 }

@@ -7,5 +7,9 @@ if (php_sapi_name() === 'cli-server' && is_file($filename)) {
     return false;
 }
 
+// Load ENV Variables
+$dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
+$dotenv->load();
+
 $app = new Newsletter\Application(getenv('SILEX_ENV') ?: 'dev');
 $app->run();

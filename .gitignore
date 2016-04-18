@@ -2,3 +2,5 @@
 /var/*
 /vendor/
 /web/css/compiled
+.env
+/.idea
